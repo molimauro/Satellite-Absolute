@@ -20,8 +20,10 @@ declare module 'vue/types/vue' {
   interface Vue {
     sendMessage: Function
     handleInputChange: Function
+    handleUpload: Function
     value: string
     updateText: Function
+    handleChatBorderRadius: Function
   }
 }
 
@@ -114,6 +116,17 @@ export default Vue.extend({
   },
   methods: {
     /**
+     * @method handleChatBorderRadius
+     * @description Sets the correct chatbar border radius while typing or when switching between friends
+     * @example
+     */
+    handleChatBorderRadius() {
+      const wrap = this.$refs.wrap as HTMLElement
+      if (wrap.offsetHeight > 50 || this.ui.replyChatbarContent.id)
+        wrap.style.borderRadius = '4px'
+      else wrap.style.borderRadius = '41px'
+    },
+    /**
      * @method handleInputChange DocsTODO
      * @description Called from handleInputKeydown function when normal key events are fired for typing in chatbar.
      * Decodes current HTML content of chatbar to plain text and Encodes plain text to Markdown HTML expression.
@@ -122,7 +135,6 @@ export default Vue.extend({
      */
     handleInputChange() {
       const messageBox = this.$refs.messageuser as HTMLElement
-      const wrap = this.$refs.wrap as HTMLElement
       // Delete extra character when it exceeds the charlimit
       if (
         messageBox.innerHTML &&
@@ -131,8 +143,7 @@ export default Vue.extend({
         messageBox.innerHTML = messageBox.innerHTML.slice(0, -1)
         this.updateText()
       }
-      if (wrap.offsetHeight > 50) wrap.style.borderRadius = '4px'
-      if (wrap.offsetHeight < 50) wrap.style.borderRadius = '41px'
+      this.handleChatBorderRadius()
       this.value = messageBox.innerHTML
     },
     /**
@@ -187,7 +198,8 @@ export default Vue.extend({
      * @example v-on:click="sendMessage"
      */
     sendMessage() {
-      const isEmpty = !this.value.replace(/\s/g, '').replace(/&nbsp;/g, '').length
+      const isEmpty = !this.value.replace(/\s/g, '').replace(/&nbsp;/g, '')
+        .length
       if (!this.recipient || isEmpty) {
         return
       }
@@ -214,7 +226,7 @@ export default Vue.extend({
      * @method handleDrop
      * @description Allows the drag and drop of files into the chatbar
      * @param e Drop event data object
-     * @example v-on:drop="handleDrop" 
+     * @example v-on:drop="handleDrop"
      */
     handleDrop(e: any) {
       e.preventDefault()
@@ -246,11 +258,21 @@ export default Vue.extend({
         // @ts-ignore
         this.$refs['file-upload']?.handleFile(handleFileExpectEvent)
       }
-    }
+    },
   },
   watch: {
     '$store.state.ui.chatbarContent': function () {
       this.updateText()
+    },
+    '$store.state.ui.replyChatbarContent': function () {
+      this.handleChatBorderRadius()
+    },
+    recipient: function () {
+      this.$store.commit('ui/setReplyChatbarContent', {
+        id: '',
+        payload: '',
+        from: '',
+      })
     },
   },
 })
