@@ -44,14 +44,14 @@
           :max-viewable-users="10"
           :fullscreen-max-viewable-users="20"
         />
-        <UiChatScroll
+        <!-- <UiChatScroll
           :contents="ui.messages"
           :prevent-scroll-offset="500"
           :class="media.activeCall ? 'media-open' : ''"
           enable-wrap
         >
-          <Nuxt />
-        </UiChatScroll>
+        </UiChatScroll> -->
+        <Nuxt />
         <TailoredMessagingEnhancers />
         <TailoredWalletMini v-if="ui.modals.walletMini" />
         <TailoredCommandsPreview :message="ui.chatbarContent" />

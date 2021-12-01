@@ -1,5 +1,14 @@
-<div :class="classObject" ref="scrollRef" v-on:scroll="onScrolled">
-  <slot />
+<div id="scrollRef" :class="classObject" ref="scrollRef" v-on:scroll="onScrolled">
+  <DynamicScroller :items="[{'id': 1}]" :min-item-size="54" class="scroller">
+    <template #before ">
+      <UiTailoredEncrypted />
+    </template>
+
+    <template v-slot="{ item, index, active }">
+      <slot :item="item" :active="active" />
+    </template>
+
+  </DynamicScroller>
   <div
     v-if="$store.state.ui.unreadMessage > 0"
     :class="this.$store.state.ui.mediaOpen ? 'new-message-alert' : 'new-message-alert offset'"

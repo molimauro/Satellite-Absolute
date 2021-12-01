@@ -31,7 +31,7 @@ export default Vue.extend({
   },
   mounted() {
     this.$store.subscribeAction((action) => {
-      console.log('Action:', action)
+      // console.log('Action:', action)
     })
 
     // Handle the case that the wallet is not found

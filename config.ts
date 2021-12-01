@@ -81,7 +81,7 @@ export const Config = {
     },
   },
   chat: {
-    defaultMessageLimit: 50,
+    defaultMessageLimit: 500,
     defalutLoadMoreLimit: 20,
     timestampUpdateInterval: 60 * 1000,
   },

@@ -4,11 +4,14 @@
 import Vue from 'vue'
 
 import { ChevronDownIcon } from 'satellite-lucide-icons'
+import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller'
 
 export default Vue.extend({
   name: 'ChatScroll',
   components: {
     ChevronDownIcon,
+    DynamicScroller,
+    DynamicScrollerItem,
   },
   props: {
     autoScroll: {
