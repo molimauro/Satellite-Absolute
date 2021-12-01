@@ -11,8 +11,8 @@
     </div>
     <div class="group-messages">
       <TailoredMessagingMessage
-        v-for="message in group.messages"
-        :group="group"
+        v-for="message in source.messages"
+        :group="source"
         :message="message"
         :from="username"
         :key="message.id"

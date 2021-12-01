@@ -1,6 +1,6 @@
 <div id="conversation" v-scroll-lock="true">
   <UiLoadersMessage :count="3" v-if="loading" />
-  <UiVirtualList v-else :items="messages">
+  <UiVirtualList v-else :items="messages.filter(g => g.type === 'group')">
     <!-- <template v-slot="{item, active}">
       <div v-if="item.type === 'group'">
         <TailoredMessagingGroup :key="item.id" :group="item" :active="active" />

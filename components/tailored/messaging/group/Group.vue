@@ -18,19 +18,23 @@ export default Vue.extend({
       type: Object as PropType<Group>,
       // default: () => {},
     },
+    source: {
+      type: Object as PropType<Group>,
+      // default: () => {},
+    },
   },
   data() {
     return {
       timestampRefreshInterval: null,
-      timestamp: this.$dayjs(this.group.at).from(),
+      timestamp: this.$dayjs(this.source.at).from(),
     }
   },
   computed: {
     address() {
-      return getAddressFromState(this.group.from, this.$store.state)
+      return getAddressFromState(this.source.from, this.$store.state)
     },
     username() {
-      return getUsernameFromState(this.group.from, this.$store.state)
+      return getUsernameFromState(this.source.from, this.$store.state)
     },
     badge() {
       // $mock.users.filter(u => u.address === group.from)[0].badge
@@ -56,7 +60,7 @@ export default Vue.extend({
     }
 
     this.$data.timestampRefreshInterval = refreshTimestampInterval(
-      this.group.at,
+      this.source.at,
       setTimestamp,
       Config.chat.timestampUpdateInterval
     )
